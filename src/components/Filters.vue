@@ -19,21 +19,13 @@
       </div>
     </div>
     <div>
-      <input type="radio" id="purple" value="purple" />
-      <label
-        for="purple"
-        class="inline-block mr-2 ml-1 bg-purple-500 w-4 h-4 rounded-full"
-      ></label>
-      <input type="radio" id="red" value="red" />
-      <label
-        for="red"
-        class="inline-block mr-2 ml-1 bg-red-500 w-4 h-4 rounded-full"
-      ></label>
-      <input type="radio" id="green" value="green" />
-      <label
-        for="green"
-        class="inline-block ml-1 bg-green-500 w-4 h-4 rounded-full"
-      ></label>
+      <label for="name" class=""
+        ><input type="radio" id="name" v-model="sort" value="name" />Name</label
+      >
+      <input type="radio" id="year" v-model="sort" value="year" />
+      <label for="year" class="">Year</label>
+      <input type="radio" id="publisher" v-model="sort" value="publisher" />
+      <label for="publisher" class="">Publisher</label>
     </div>
   </div>
 </template>
@@ -45,6 +37,7 @@ export default {
     return {
       nameGame: "",
       year: 100,
+      sort: "name",
     };
   },
   methods: {
