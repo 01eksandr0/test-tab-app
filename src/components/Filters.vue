@@ -1,0 +1,95 @@
+<template>
+  <div class="filer-bar flex w-screen bg-blue-600 items-center pt-2 pb-2">
+    <input
+      class="input"
+      placeholder="Search"
+      type="text"
+      v-model.trim="nameGame"
+    />
+
+    <div class="range-container">
+      <p class="text-white">Year</p>
+      <div class="flex items-center flex-col gap-0.5">
+        <p class="text-white">to {{ formatYear(year) }}</p>
+        <input
+          type="range"
+          v-model.number="year"
+          class="appearance-none w-full h-2 bg-gray-200 rounded-md outline-none focus:bg-gray-300 focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+    </div>
+    <div>
+      <input type="radio" id="purple" value="purple" />
+      <label
+        for="purple"
+        class="inline-block mr-2 ml-1 bg-purple-500 w-4 h-4 rounded-full"
+      ></label>
+      <input type="radio" id="red" value="red" />
+      <label
+        for="red"
+        class="inline-block mr-2 ml-1 bg-red-500 w-4 h-4 rounded-full"
+      ></label>
+      <input type="radio" id="green" value="green" />
+      <label
+        for="green"
+        class="inline-block ml-1 bg-green-500 w-4 h-4 rounded-full"
+      ></label>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapGetters } from "vuex";
+export default {
+  data() {
+    return {
+      nameGame: "",
+      year: 100,
+    };
+  },
+  methods: {
+    ...mapActions(["changeFilters", "fetchGames"]),
+    formatYear(y) {
+      return parseInt(1974 + y / 2);
+    },
+  },
+  computed: mapGetters(["getFilters"]),
+  watch: {
+    nameGame() {
+      this.changeFilters({ ...this.getFilters, name: this.nameGame });
+      this.fetchGames({
+        page: 1,
+        filters: { ...this.getFilters, name: this.nameGame },
+      });
+    },
+    year() {
+      this.changeFilters({
+        ...this.getFilters,
+        year: this.formatYear(this.year),
+      });
+      this.fetchGames({
+        page: 1,
+        filters: { ...this.getFilters, year: this.formatYear(this.year) },
+      });
+    },
+  },
+};
+</script>
+
+<style lang="css" scoped>
+.input {
+  height: 32px;
+  width: 230px;
+  border: none;
+  border-radius: 15px;
+  margin-left: 20px;
+  padding-left: 20px;
+  display: flex;
+}
+.range-container {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  gap: 10px;
+}
+</style>
